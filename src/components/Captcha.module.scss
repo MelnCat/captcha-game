@@ -1,7 +1,32 @@
 .captcha {
 	border: 1px solid #d3d3d3;
     background-color: #f9f9f9;
-    color: #000000;
     height: 74px;
-    width: 300px;
+    width: 240px;
+    border-radius: 3px;
+    box-shadow: 0 0 4px 1px #00000014;
+	display: flex;
+	align-items: center;
+}
+
+.checkbox {
+    border-radius: 2px;
+    background-color: #ffffff;
+    border: 2px solid #c1c1c1;
+    font-size: 1px;
+    height: 28px;
+    width: 28px;
+    z-index: 1;
+	margin: 0 14px;
+}
+
+.checkboxContainer {
+	position: relative;
+}
+
+.label {
+    font-family: Roboto, helvetica, arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
 }

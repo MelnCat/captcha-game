@@ -1,0 +1,19 @@
+.captchaBox {
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    box-shadow: #00000033 2px 2px 3px;
+}
+.captchaBox::before {
+	content: "";
+	width: 8px;
+	height: 6px;
+	position: absolute;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+	clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+
+}

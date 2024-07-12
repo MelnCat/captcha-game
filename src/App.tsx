@@ -1,11 +1,12 @@
-import { useState } from "react";
 import "./App.css";
+import { Captcha } from "./components/Captcha";
 
 function App() {
 	return (
-		<>
-		<h1>Title</h1>
-		</>
+		<main>
+			<h1>Title</h1>
+			<Captcha />
+		</main>
 	);
 }
 
