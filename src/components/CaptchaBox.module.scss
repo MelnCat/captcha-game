@@ -1,19 +1,58 @@
 .captchaBox {
 	position: absolute;
-	top: 100%;
+	top: calc(100% + 6px);
 	left: 50%;
 	transform: translateX(-50%);
     background-color: #ffffff;
     border: 1px solid #cccccc;
     box-shadow: #00000033 2px 2px 3px;
+	width: 520px;
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+	padding: 7px;
+}
+.captchaBox::before, .captchaBox::after {
+	content: "";
+	width: 16px;
+	height: 11px;
+	position: absolute;
+	clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+	bottom: 100%;
+	left: 50%;
+	transform: translate(-50%);
 }
 .captchaBox::before {
-	content: "";
-	width: 8px;
-	height: 6px;
-	position: absolute;
     background-color: #ffffff;
-    border: 1px solid #cccccc;
-	clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-
+	z-index: 1;
+	bottom: calc(100% - 1px);
+}
+.captchaBox::after {
+    background-color: #cccccc;
+	width: 18px;
+	height: 12px;
+}
+.captchaBox header {
+	background-color: #1a73e8;
+    padding: 24px;
+	color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.8em;
+	p {
+		font-size: 2em;
+		font-weight: bold;
+		margin: 0;
+	}
+	.title {
+		font-size: 0.85em;
+	}
+	.skip {
+		font-size: 0.95em;
+	}
+}
+.contentBox {
+	aspect-ratio: 1 / 1;
+	width: 100%;
+	background: red;
 }
