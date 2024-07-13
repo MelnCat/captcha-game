@@ -32,27 +32,3 @@
 	width: 18px;
 	height: 12px;
 }
-.captchaBox header {
-	background-color: #1a73e8;
-    padding: 24px;
-	color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    line-height: 1.8em;
-	p {
-		font-size: 2em;
-		font-weight: bold;
-		margin: 0;
-	}
-	.title {
-		font-size: 0.85em;
-	}
-	.skip {
-		font-size: 0.95em;
-	}
-}
-.contentBox {
-	aspect-ratio: 1 / 1;
-	width: 100%;
-	background: red;
-}

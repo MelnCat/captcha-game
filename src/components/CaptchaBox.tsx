@@ -1,16 +1,15 @@
+import { useContext } from "react";
 import styles from "./CaptchaBox.module.scss";
+import { CaptchaHeader } from "./CaptchaHeader";
+import { GameContext } from "../util/GameContext";
+import { levels } from "../levels/levels";
 
 export const CaptchaBox = () => {
+	const game = useContext(GameContext);
+	const CurrentLevel = levels[game.level].component;
 	return (
 		<article className={styles.captchaBox}>
-			<header>
-				<span className={styles.title}>Select all squares with</span>
-				<p>fire hydrants</p>
-				<span className={styles.skip}>If there are none, click skip</span>
-			</header>
-			<section className={styles.contentBox}>
-				
-			</section>
+			<CurrentLevel />
 		</article>
 	);
 };
