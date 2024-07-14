@@ -2,7 +2,8 @@ import { useMemo, useState } from "react";
 import "./App.css";
 import { Captcha } from "./components/Captcha";
 import { GameContext } from "./util/GameContext";
-import { useLocalStorage } from 'usehooks-ts'
+import { useLocalStorage } from "usehooks-ts";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
 	const [level, setLevel] = useLocalStorage("level", 1);

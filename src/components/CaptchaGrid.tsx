@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import styles from "./CaptchaGrid.module.scss";
 import { Check } from "@mui/icons-material";
 
-export const CaptchaGrid = ({ selections, setSelections, image }: { selections: boolean[]; setSelections: Dispatch<SetStateAction<boolean[]>>; image: string }) => {
+export const CaptchaGrid = ({ selections, setSelections, image }: { selections: number; setSelections: Dispatch<SetStateAction<number>>; image: string }) => {
 	return (
 		<section className={styles.grid} style={{ "--bg-image": image }}>
 			{[...Array(3)].map((_, i) =>
@@ -11,8 +11,8 @@ export const CaptchaGrid = ({ selections, setSelections, image }: { selections: 
 						row={i}
 						column={j}
 						key={`${i}_${j}`}
-						selected={selections[i + j * 3]}
-						setSelected={s => setSelections(Object.assign([], selections, { [i + j * 3]: s }))}
+						selected={(selections & (1 << (i + j * 3))) !== 0}
+						toggleSelected={() => setSelections(x => x ^ (1 << (i + j * 3)))}
 					/>
 				))
 			)}
@@ -20,7 +20,7 @@ export const CaptchaGrid = ({ selections, setSelections, image }: { selections: 
 	);
 };
 
-const CaptchaGridItem = ({ row, column, selected, setSelected }: { row: number; column: number; selected: boolean; setSelected(selected: boolean): void }) => {
+const CaptchaGridItem = ({ row, column, selected, toggleSelected }: { row: number; column: number; selected: boolean; toggleSelected(): void }) => {
 	return (
 		<div className={styles.gridItemWrapper}>
 			<div
@@ -29,7 +29,7 @@ const CaptchaGridItem = ({ row, column, selected, setSelected }: { row: number; 
 					backgroundPosition: `${(100 / 2) * row}% ${(100 / 2) * column}%`,
 				}}
 				{...(selected ? { "data-selected": true } : null)}
-				onClick={() => setSelected(!selected)}
+				onClick={() => toggleSelected()}
 			>
 				{selected && (
 					<div className={styles.checkmark}>
