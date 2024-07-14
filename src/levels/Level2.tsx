@@ -7,7 +7,7 @@ import { GameContext } from "../util/GameContext";
 
 export const Level2 = () => {
 	const game = useContext(GameContext);
-	const [selections, setSelections] = useState(0);
+	const [selections, setSelections] = useState(0n);
 	const [variant, setVariant] = useState(() => Math.floor(Math.random() * 8) + 1);
 	const [error, setError] = useState<string | null>(null);
 	const validate = () => {
@@ -16,15 +16,15 @@ export const Level2 = () => {
 		<>
 			<CaptchaHeader
 				content={{
-					title: "Select all images with",
-					term: "cars",
+					title: "Select all squares with",
+					term: "motorcycles",
 				}}
 			/>
 			<CaptchaContent>
-				<CaptchaGrid image={`url("/img/l1/${variant}.jfif")`} selections={selections} setSelections={setSelections} />
+				<CaptchaGrid image={`url("t")`} size={10} selections={selections} setSelections={setSelections} />
 			</CaptchaContent>
 			<hr />
-			<CaptchaFooter error={error} onClick={validate} />
+			<CaptchaFooter level={2} buttonLabel="Verify" error={error} onClick={validate} />
 		</>
 	);
 };

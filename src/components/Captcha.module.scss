@@ -18,6 +18,9 @@
     width: 28px;
     z-index: 1;
 	margin: 0 14px;
+	&:active {
+		background-color: #eeeeee;
+	}
 }
 
 .checkboxContainer {
