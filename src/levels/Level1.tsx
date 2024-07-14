@@ -5,7 +5,7 @@ import { CaptchaGrid } from "../components/CaptchaGrid";
 import { CaptchaHeader } from "../components/CaptchaHeader";
 import { GameContext } from "../util/GameContext";
 
-export const solutions: Record<number, bigint> = {
+const solutions: Record<number, bigint> = {
 	1: 163n,
 	2: 194n,
 	3: 7n,

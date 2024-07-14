@@ -11,6 +11,7 @@
 	position: relative;
 }
 .gridItem {
+	container-type: normal;
 	width: 100%;
 	height: 100%;
 	background-image: var(--bg-image);
@@ -20,7 +21,7 @@
 	border: #ffffff solid;
 	border-width: 0;
 	&[data-selected] {
-		border-width: 0.5cqmin;
+		border-width: var(--highlight-border-size);
 	}
 }
 .checkmark {
