@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { shuffle } from "remeda";
 
 export const useVariant = (max: number) => {
 	const [variant, setVariant] = useState(() => Math.floor(Math.random() * max) + 1);
@@ -11,4 +12,9 @@ export const useVariant = (max: number) => {
 				return value;
 			}),
 	] as const;
+};
+
+export const useOrder = (size: number) => {
+	const [order, setOrder] = useState(() => shuffle([...Array(size)].map((_, i) => i + 1)));
+	return [order, () => setOrder(x => shuffle(x))] as const;
 };

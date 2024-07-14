@@ -9,6 +9,7 @@
 .gridItemWrapper {
 	display: flex;
 	position: relative;
+	order: var(--order);
 }
 .gridItem {
 	container-type: normal;

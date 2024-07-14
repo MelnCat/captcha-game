@@ -7,19 +7,29 @@ import { GameContext } from "../util/GameContext";
 import { useOrder, useVariant } from "../util/util";
 import { motion } from "framer-motion";
 
-const solution = 113n;
+const solutions: Record<number, bigint> = {
+	1: 163n,
+	2: 194n,
+	3: 7n,
+	4: 38n,
+	5: 133n,
+	6: 385n,
+	7: 152n,
+	8: 26n,
+};
 
-export const Level3 = () => {
+export const Level4 = () => {
 	const game = useContext(GameContext);
 	const [selections, setSelections] = useState(0n);
-	const [order, resetOrder] = useOrder(9);
+	const [variant, resetVariant] = useVariant(1);	
 	const [error, setError] = useState<string | null>(null);
 	const validate = () => {
-		if (selections === solution) {
-			game.nextLevel();
+		console.log(variant, selections)
+		if (selections === solutions[variant]) {
+			//game.nextLevel();
 		} else {
 			setSelections(0n);
-			resetOrder();
+			resetVariant();
 			setError("Please try again.");
 		}
 	};
@@ -28,14 +38,15 @@ export const Level3 = () => {
 			<CaptchaHeader
 				content={{
 					title: "Select all squares with",
-					term: "pillows",
+					term: "mines",
+					skip: "If there are none, click skip."
 				}}
 			/>
-			<CaptchaContent>
-				<CaptchaGrid order={order} image={`url("/img/l3/1.jfif")`} size={3} selections={selections} setSelections={setSelections} />
+			<CaptchaContent pixelated>
+				<CaptchaGrid image={`url("/img/l4/1.png")`} size={4} selections={selections} setSelections={setSelections} />
 			</CaptchaContent>
 			<hr />
-			<CaptchaFooter level={3} buttonLabel="Verify" error={error} onClick={validate} />
+			<CaptchaFooter level={4} buttonLabel={selections === 0n ? "Skip" : "Verify"} error={error} onClick={validate} />
 		</motion.article>
 	);
 };

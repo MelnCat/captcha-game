@@ -24,7 +24,7 @@ export const Level2 = () => {
 	const validate = () => {
 		console.log(variant, selections);
 		if ((selections & ~solutions[variant].secondary) === solutions[variant].primary) {
-			// success
+			game.nextLevel();
 		} else {
 			setSelections(0n);
 			resetVariant();
@@ -37,13 +37,14 @@ export const Level2 = () => {
 				content={{
 					title: "Select all squares with",
 					term: "stairs",
+					skip: "If there are none, click skip."
 				}}
 			/>
 			<CaptchaContent>
 				<CaptchaGrid image={`url("/img/l2/${variant}.jfif")`} size={4} selections={selections} setSelections={setSelections} />
 			</CaptchaContent>
 			<hr />
-			<CaptchaFooter level={2} buttonLabel="Verify" error={error} onClick={validate} />
+			<CaptchaFooter level={2} buttonLabel={selections === 0n ? "Skip" : "Verify"} error={error} onClick={validate} />
 		</motion.article>
 	);
 };
