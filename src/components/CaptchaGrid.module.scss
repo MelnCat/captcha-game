@@ -1,0 +1,8 @@
+.grid {
+	display: grid;
+	grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+}
+.gridItem {
+	background-image: var(--bg-image);
+	background-size: 300% 300%;
+}

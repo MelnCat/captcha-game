@@ -1,8 +1,7 @@
 import { useContext } from "react";
-import styles from "./CaptchaBox.module.scss";
-import { CaptchaHeader } from "./CaptchaHeader";
-import { GameContext } from "../util/GameContext";
 import { levels } from "../levels/levels";
+import { GameContext } from "../util/GameContext";
+import styles from "./CaptchaBox.module.scss";
 
 export const CaptchaBox = () => {
 	const game = useContext(GameContext);
