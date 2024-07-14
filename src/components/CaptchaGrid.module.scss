@@ -1,8 +1,20 @@
 .grid {
 	display: grid;
 	grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+	height: 100%;
+	width: 100%;
+	gap: 5px;
 }
 .gridItem {
 	background-image: var(--bg-image);
 	background-size: 300% 300%;
+	transition: border 0.1s;
+	border: #ffffff solid;
+	border-width: 0;
+	&[data-selected] {
+		border-width: 14px;
+	}
+}
+.checkmark {
+	position: absolute;
 }

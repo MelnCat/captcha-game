@@ -6,7 +6,7 @@
     background-color: #ffffff;
     border: 1px solid #cccccc;
     box-shadow: #00000033 2px 2px 3px;
-	width: 520px;
+	width: 460px;
 	display: flex;
 	flex-direction: column;
 	gap: 7px;
@@ -31,4 +31,11 @@
     background-color: #cccccc;
 	width: 18px;
 	height: 12px;
+}
+
+.captchaBox hr {
+    border: none;
+    border-bottom: 1px solid #cccccc;
+    width: 100%;
+    margin: 0;
 }

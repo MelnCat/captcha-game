@@ -1,0 +1,28 @@
+.footer {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: space-between;	
+}
+
+.label {
+	font-weight: bold;
+	font-size: 1.2em;
+	margin-left: 0.6em;
+}
+
+.verify {
+	background-color: #1a73e8;
+	color: #ffffff;
+	text-transform: uppercase;
+	padding: 0.8em 1.8em;
+	font-size: 0.9em;
+	&:hover {
+		background-color: #1a68cf;
+		color: #eeeeee;
+	}
+	&:active {
+		background-color: #185ab1;
+		color: #dddddd;
+	}
+}
