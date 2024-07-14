@@ -5,6 +5,7 @@ import styles from "./CaptchaBox.module.scss";
 
 export const CaptchaBox = () => {
 	const game = useContext(GameContext);
+	console.log(game.level);
 	const CurrentLevel = levels[game.level].component;
 	return (
 		<article className={styles.captchaBox}>
