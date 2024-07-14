@@ -4,6 +4,8 @@ import { CaptchaFooter } from "../components/CaptchaFooter";
 import { CaptchaGrid } from "../components/CaptchaGrid";
 import { CaptchaHeader } from "../components/CaptchaHeader";
 import { GameContext } from "../util/GameContext";
+import { useVariant } from "../util/util";
+import { motion } from "framer-motion";
 
 const solutions: Record<number, bigint> = {
 	1: 163n,
@@ -14,28 +16,24 @@ const solutions: Record<number, bigint> = {
 	6: 385n,
 	7: 152n,
 	8: 26n,
-}
+};
 
 export const Level1 = () => {
 	const game = useContext(GameContext);
 	const [selections, setSelections] = useState(0n);
-	const [variant, setVariant] = useState(() => Math.floor(Math.random() * 8) + 1);
+	const [variant, resetVariant] = useVariant(8);
 	const [error, setError] = useState<string | null>(null);
 	const validate = () => {
 		if (selections === solutions[variant]) {
 			game.nextLevel();
 		} else {
 			setSelections(0n);
-			setVariant(old => {
-				const value = Math.floor(Math.random() * 7) + 1;
-				if (value >= old) return value + 1;
-				return value;
-			});
+			resetVariant();
 			setError("Please try again.");
 		}
-	}
+	};
 	return (
-		<>
+		<motion.article initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
 			<CaptchaHeader
 				content={{
 					title: "Select all images with",
@@ -47,6 +45,6 @@ export const Level1 = () => {
 			</CaptchaContent>
 			<hr />
 			<CaptchaFooter level={1} buttonLabel="Verify" error={error} onClick={validate} />
-		</>
+		</motion.article>
 	);
 };

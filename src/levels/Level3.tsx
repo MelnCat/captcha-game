@@ -7,40 +7,27 @@ import { GameContext } from "../util/GameContext";
 import { useVariant } from "../util/util";
 import { motion } from "framer-motion";
 
-const solutions: Record<number, { primary: bigint; secondary: bigint }> = {
-	1: { primary: 4912n, secondary: 8194n },
-	2: { primary: 35936n, secondary: 134n },
-	3: { primary: 28672n, secondary: 1792n },
-	4: { primary: 28384n, secondary: 37120n	},
-	5: { primary: 52352n, secondary: 8256n },
-	6: { primary: 4352n, secondary: 16n }
+const solutions: Record<number, bigint> = {
 };
 
-export const Level2 = () => {
+export const Level3 = () => {
 	const game = useContext(GameContext);
 	const [selections, setSelections] = useState(0n);
-	const [variant, resetVariant] = useVariant(6);
+	const [variant, resetVariant] = useVariant(1);
 	const [error, setError] = useState<string | null>(null);
 	const validate = () => {
 		console.log(variant, selections);
-		if ((selections & ~solutions[variant].secondary) === solutions[variant].primary) {
-			// success
-		} else {
-			setSelections(0n);
-			resetVariant();
-			setError("Please try again.");
-		}
 	};
 	return (
 		<motion.article initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
 			<CaptchaHeader
 				content={{
 					title: "Select all squares with",
-					term: "stairs",
+					term: "pillows",
 				}}
 			/>
 			<CaptchaContent>
-				<CaptchaGrid image={`url("/img/l2/${variant}.jfif")`} size={4} selections={selections} setSelections={setSelections} />
+				<CaptchaGrid image={`url("/img/l3/${variant}.jfif")`} size={4} selections={selections} setSelections={setSelections} />
 			</CaptchaContent>
 			<hr />
 			<CaptchaFooter level={2} buttonLabel="Verify" error={error} onClick={validate} />
