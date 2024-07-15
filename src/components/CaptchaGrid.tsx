@@ -9,15 +9,25 @@ export const CaptchaGrid = ({
 	image,
 	size,
 	order,
+	disallowed,
 }: {
 	selections: bigint;
 	setSelections: Dispatch<SetStateAction<bigint>>;
 	image: string;
 	size: number;
 	order?: number[];
+	disallowed?: bigint;
 }) => {
 	return (
-		<section className={styles.grid} style={{ "--bg-image": image, "--grid-size": size, "--highlight-border-size": size === 3 ? "1.6cqmin" : "1cqmin" }}>
+		<section
+			className={styles.grid}
+			style={{
+				"--bg-image": image,
+				"--grid-size": size,
+				"--highlight-border-size": size < 7 ? "11cqmin" : "13cqmin",
+				"--checkmark-size": size < 7 ? "22.2cqmin" : "32.2cqmin",
+			}}
+		>
 			{[...Array(size)].map((_, i) =>
 				[...Array(size)].map((_, j) => (
 					<CaptchaGridItem
@@ -27,6 +37,7 @@ export const CaptchaGrid = ({
 						selected={(selections & (1n << BigInt(i + j * size))) !== 0n}
 						toggleSelected={() => setSelections(x => x ^ (1n << BigInt(i + j * size)))}
 						order={order?.[i + j * size]}
+						disallowed={disallowed !== undefined && (disallowed & (1n << BigInt(i + j * size))) !== 0n}
 					/>
 				))
 			)}
@@ -34,13 +45,28 @@ export const CaptchaGrid = ({
 	);
 };
 
-const CaptchaGridItem = ({ row, column, selected, toggleSelected, order }: { row: number; column: number; selected: boolean; toggleSelected(): void; order?: number }) => {
+const CaptchaGridItem = ({
+	row,
+	column,
+	selected,
+	toggleSelected,
+	order,
+	disallowed,
+}: {
+	row: number;
+	column: number;
+	selected: boolean;
+	toggleSelected(): void;
+	order?: number;
+	disallowed: boolean;
+}) => {
 	return (
 		<div
 			className={styles.gridItemWrapper}
 			style={{
 				...(order ? { "--order": order } : null),
 			}}
+			{...(disallowed ? { "data-disallowed": true } : null)}
 		>
 			<div
 				className={styles.gridItem}
@@ -49,7 +75,9 @@ const CaptchaGridItem = ({ row, column, selected, toggleSelected, order }: { row
 					"--column": column,
 				}}
 				{...(selected ? { "data-selected": true } : null)}
-				onClick={() => toggleSelected()}
+				onClick={() => {
+					if (!disallowed) toggleSelected();
+				}}
 			>
 				<AnimatePresence>
 					{selected && (
