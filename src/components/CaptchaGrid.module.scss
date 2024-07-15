@@ -5,14 +5,19 @@
 	width: 100%;
 	gap: 3px;
 	grid-auto-flow: column;
+	&:hover {
+		.gridItemWrapper[data-disallowed] {
+			filter: brightness(0.7) saturate(0.5) contrast(0.8);
+		}
+	}
 }
 .gridItemWrapper {
 	display: flex;
 	position: relative;
 	order: var(--order);
-    container-type: inline-size;
+	container-type: inline-size;
+	transition: filter 0.1s;
 	&[data-disallowed] {
-		filter: brightness(0.5) saturate(0.8);
 		cursor: not-allowed;
 	}
 }

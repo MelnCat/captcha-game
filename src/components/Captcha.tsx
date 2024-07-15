@@ -24,6 +24,12 @@ export const Captcha = () => {
 						setTimeout(() => {
 							setOpen(true);
 							animate(scope.current, { borderRadius: 0, backgroundColor: "#ffffff", borderColor: "#c1c1c1" }, { duration: 0.2 });
+							setTimeout(() => {
+								scrollTo({
+									top: document.body.scrollHeight,
+									behavior: "smooth"
+								});
+							}, 200);
 						}, 500);
 					}}
 				/>

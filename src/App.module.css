@@ -1,5 +1,11 @@
-main {
+.main {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+.label {
+	margin: 0;
+}
+.spacer {
+	height: 1em;
 }
