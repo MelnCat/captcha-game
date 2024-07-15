@@ -10,23 +10,26 @@ export const CaptchaGrid = ({
 	size,
 	order,
 	disallowed,
+	hideDisallowed
 }: {
 	selections: bigint;
 	setSelections: Dispatch<SetStateAction<bigint>>;
-	image: string;
+	image: string | string[];
 	size: number;
 	order?: number[];
 	disallowed?: bigint;
+	hideDisallowed?: boolean;
 }) => {
 	return (
 		<section
 			className={styles.grid}
 			style={{
-				"--bg-image": image,
 				"--grid-size": size,
 				"--highlight-border-size": size < 7 ? "11cqmin" : "13cqmin",
 				"--checkmark-size": size < 7 ? "22.2cqmin" : "32.2cqmin",
+				...(typeof image === "string" ? { "--bg-image": image } : null),
 			}}
+			{...(hideDisallowed ? { "data-hide-disallowed": true } : null)}
 		>
 			{[...Array(size)].map((_, i) =>
 				[...Array(size)].map((_, j) => (
@@ -38,6 +41,7 @@ export const CaptchaGrid = ({
 						toggleSelected={() => setSelections(x => x ^ (1n << BigInt(i + j * size)))}
 						order={order?.[i + j * size]}
 						disallowed={disallowed !== undefined && (disallowed & (1n << BigInt(i + j * size))) !== 0n}
+						{...(image instanceof Array ? { image: image[i + j * size] } : null)}
 					/>
 				))
 			)}
@@ -52,6 +56,7 @@ const CaptchaGridItem = ({
 	toggleSelected,
 	order,
 	disallowed,
+	image,
 }: {
 	row: number;
 	column: number;
@@ -59,6 +64,7 @@ const CaptchaGridItem = ({
 	toggleSelected(): void;
 	order?: number;
 	disallowed: boolean;
+	image?: string;
 }) => {
 	return (
 		<div
@@ -71,8 +77,9 @@ const CaptchaGridItem = ({
 			<div
 				className={styles.gridItem}
 				style={{
-					"--row": row,
-					"--column": column,
+					"--row": image ? 0 : row,
+					"--column": image ? 0 : column,
+					...(image ? { backgroundImage: image } : null),
 				}}
 				{...(selected ? { "data-selected": true } : null)}
 				onClick={() => {

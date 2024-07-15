@@ -5,7 +5,7 @@
 	width: 100%;
 	gap: 3px;
 	grid-auto-flow: column;
-	&:hover {
+	&:not([data-hide-disallowed]):hover {
 		.gridItemWrapper[data-disallowed] {
 			filter: brightness(0.7) saturate(0.5) contrast(0.8);
 		}
