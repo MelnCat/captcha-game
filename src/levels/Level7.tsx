@@ -9,7 +9,9 @@ import { motion } from "framer-motion";
 import { countBits } from "../util/bits";
 
 const solutions: Record<number, bigint> = {
-	1: 469n
+	1: 469n,
+	2: 318n,
+	3: 228n
 };
 
 export const Level7 = () => {
@@ -25,7 +27,7 @@ export const Level7 = () => {
 		} else {
 			setSelections(0n);
 			resetOrder();
-			setVariant(2);
+			setVariant(variant === 3 ? 2 : variant + 1);
 			setError("Please try again.");
 		}
 	};
@@ -34,13 +36,13 @@ export const Level7 = () => {
 			<CaptchaHeader
 				content={{
 					title: "Select all squares with",
-					term: ["", "convergent improper integrals"][variant]
+					term: ["", "convergent improper integrals", "prime numbers", "even numbers"][variant]
 				}}
 			/>
 			<CaptchaContent>
 				<CaptchaGrid
 					hideDisallowed
-					//order={order}
+					order={order}
 					image={`url("/img/l7/${variant}.jfif")`}
 					size={3}
 					selections={selections}

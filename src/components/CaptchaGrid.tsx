@@ -10,7 +10,8 @@ export const CaptchaGrid = ({
 	size,
 	order,
 	disallowed,
-	hideDisallowed
+	hideDisallowed,
+	animateLayout
 }: {
 	selections: bigint;
 	setSelections: Dispatch<SetStateAction<bigint>>;
@@ -19,6 +20,7 @@ export const CaptchaGrid = ({
 	order?: number[];
 	disallowed?: bigint;
 	hideDisallowed?: boolean;
+	animateLayout?: boolean;
 }) => {
 	return (
 		<section
@@ -34,6 +36,7 @@ export const CaptchaGrid = ({
 			{[...Array(size)].map((_, i) =>
 				[...Array(size)].map((_, j) => (
 					<CaptchaGridItem
+						animateLayout={animateLayout}
 						row={i}
 						column={j}
 						key={`${i}_${j}`}
@@ -57,6 +60,7 @@ const CaptchaGridItem = ({
 	order,
 	disallowed,
 	image,
+	animateLayout
 }: {
 	row: number;
 	column: number;
@@ -65,9 +69,11 @@ const CaptchaGridItem = ({
 	order?: number;
 	disallowed: boolean;
 	image?: string;
+	animateLayout?: boolean;
 }) => {
 	return (
-		<div
+		<motion.div
+			layout={animateLayout}
 			className={styles.gridItemWrapper}
 			style={{
 				...(order ? { "--order": order } : null),
@@ -94,6 +100,6 @@ const CaptchaGridItem = ({
 					)}
 				</AnimatePresence>
 			</div>
-		</div>
+		</motion.div>
 	);
 };
