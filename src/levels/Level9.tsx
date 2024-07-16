@@ -1,27 +1,29 @@
-import { motion } from "framer-motion";
-import { useContext, useEffect, useMemo, useState } from "react";
-import { chunk } from "remeda";
+import { useContext, useState } from "react";
 import { CaptchaContent } from "../components/CaptchaContent";
 import { CaptchaFooter } from "../components/CaptchaFooter";
 import { CaptchaGrid } from "../components/CaptchaGrid";
 import { CaptchaHeader } from "../components/CaptchaHeader";
 import { GameContext } from "../util/GameContext";
-import { SettingsInputAntenna } from "@mui/icons-material";
-import limbo from "../../public/audio/limbo.mp3";
-import useSound from "use-sound";
+import { useOrder, useVariant } from "../util/util";
+import { motion } from "framer-motion";
+
+const solutions: Record<number, bigint> = {
+	1: 37798532100282069942273n,
+	2: 1209221041829273246634112n,
+	3: 75599373404229687869472n
+};
 
 export const Level9 = () => {
 	const game = useContext(GameContext);
 	const [selections, setSelections] = useState(0n);
+	const [variant, resetVariant] = useVariant(3);	
 	const [error, setError] = useState<string | null>(null);
 	const validate = () => {
-		if (selections === 2n ** BigInt(answer)) {
+		if (selections === solutions[variant]) {
 			game.nextLevel();
 		} else {
 			setSelections(0n);
-			setStage(0);
-			setAnswer(() => Math.floor(Math.random() * 16));
-			setSteps(0);
+			resetVariant();
 			setError("Please try again.");
 		}
 	};
@@ -30,25 +32,15 @@ export const Level9 = () => {
 			<CaptchaHeader
 				content={{
 					title: "Select all squares with",
-					term: "golden keys",
-					skip: "FOCUS",
+					term: ["", "2", "1", "9"][variant],
+					skip: "If there are none, click skip."
 				}}
 			/>
 			<CaptchaContent>
-				<CaptchaGrid
-					opacity={stage === 1 ? 0.8 : 1}
-					animateLayout
-					hideDisallowed
-					disallowed={stage === 2 ? 0n : ~0n}
-					order={order}
-					image={images}
-					size={4}
-					selections={selections}
-					setSelections={setSelections}
-				/>
+				<CaptchaGrid image={`url("/img/l9/${variant}.png")`} size={9} selections={selections} setSelections={setSelections} />
 			</CaptchaContent>
 			<hr />
-			<CaptchaFooter level={8} buttonLabel={"Verify"} error={error} onClick={validate} />
+			<CaptchaFooter level={9} buttonLabel={selections === 0n ? "Skip" : "Verify"} error={error} onClick={validate} />
 		</motion.article>
 	);
 };
