@@ -11,7 +11,8 @@ export const CaptchaGrid = ({
 	order,
 	disallowed,
 	hideDisallowed,
-	animateLayout
+	animateLayout,
+	opacity
 }: {
 	selections: bigint;
 	setSelections: Dispatch<SetStateAction<bigint>>;
@@ -21,6 +22,7 @@ export const CaptchaGrid = ({
 	disallowed?: bigint;
 	hideDisallowed?: boolean;
 	animateLayout?: boolean;
+	opacity?: number;
 }) => {
 	return (
 		<section
@@ -44,6 +46,7 @@ export const CaptchaGrid = ({
 						toggleSelected={() => setSelections(x => x ^ (1n << BigInt(i + j * size)))}
 						order={order?.[i + j * size]}
 						disallowed={disallowed !== undefined && (disallowed & (1n << BigInt(i + j * size))) !== 0n}
+						opacity={opacity}
 						{...(image instanceof Array ? { image: image[i + j * size] } : null)}
 					/>
 				))
@@ -60,7 +63,8 @@ const CaptchaGridItem = ({
 	order,
 	disallowed,
 	image,
-	animateLayout
+	animateLayout,
+	opacity
 }: {
 	row: number;
 	column: number;
@@ -70,6 +74,7 @@ const CaptchaGridItem = ({
 	disallowed: boolean;
 	image?: string;
 	animateLayout?: boolean;
+	opacity?: number;
 }) => {
 	return (
 		<motion.div
@@ -77,6 +82,7 @@ const CaptchaGridItem = ({
 			className={styles.gridItemWrapper}
 			style={{
 				...(order ? { "--order": order } : null),
+				...(opacity !== undefined ? { opacity } : null)
 			}}
 			{...(disallowed ? { "data-disallowed": true } : null)}
 		>
@@ -85,7 +91,7 @@ const CaptchaGridItem = ({
 				style={{
 					"--row": image ? 0 : row,
 					"--column": image ? 0 : column,
-					...(image ? { backgroundImage: image } : null),
+					...(image ? { backgroundImage: image, backgroundSize: "contain" } : null),
 				}}
 				{...(selected ? { "data-selected": true } : null)}
 				onClick={() => {

@@ -16,7 +16,7 @@
 	position: relative;
 	order: var(--order);
 	container-type: inline-size;
-	transition: filter 0.1s;
+	transition: filter 0.1s, opacity 0.2s;
 	&[data-disallowed] {
 		cursor: not-allowed;
 	}
@@ -27,7 +27,7 @@
 	background-image: var(--bg-image);
 	background-size: calc(var(--grid-size) * 100%) calc(var(--grid-size) * 100%);
 	background-position: calc(100% / (var(--grid-size) - 1) * var(--row)) calc(100% / (var(--grid-size) - 1) * var(--column));
-	transition: border 0.1s;
+	transition: border 0.1s, background-image 0.2s;
 	border: #ffffff solid;
 	border-width: 0;
 	&[data-selected] {
