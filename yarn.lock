@@ -1417,6 +1417,11 @@ hoist-non-react-statics@^3.3.1:
   dependencies:
     react-is "^16.7.0"
 
+howler@^2.1.3:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/howler/-/howler-2.2.4.tgz#bd3df4a4f68a0118a51e4bd84a2bfc2e93e6e5a1"
+  integrity sha512-iARIBPgcQrwtEr+tALF+rapJ8qSc+Set2GJQl7xT1MQzWaVkFebdJhR3alVlSiUf5U7nAANKuj3aWpwerocD5w==
+
 ignore@^5.2.0, ignore@^5.3.1:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.3.1.tgz#5073e554cd42c5b33b394375f538b8593e34d4ef"
@@ -2001,6 +2006,13 @@ uri-js@^4.2.2:
   integrity sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
   dependencies:
     punycode "^2.1.0"
+
+use-sound@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/use-sound/-/use-sound-4.0.3.tgz#858effc102b987e0e1f9a6d396706c1362453543"
+  integrity sha512-L205pEUFIrLsGYsCUKHQVCt0ajs//YQOFbEQeNwaWaqQj3y3st4SuR+rvpMHLmv8hgTcfUFlvMQawZNI3OE18w==
+  dependencies:
+    howler "^2.1.3"
 
 usehooks-ts@^3.1.0:
   version "3.1.0"

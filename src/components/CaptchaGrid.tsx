@@ -44,7 +44,7 @@ export const CaptchaGrid = ({
 						key={`${i}_${j}`}
 						selected={(selections & (1n << BigInt(i + j * size))) !== 0n}
 						toggleSelected={() => setSelections(x => x ^ (1n << BigInt(i + j * size)))}
-						order={order?.[i + j * size]}
+						order={order?.indexOf(i + j * size)}
 						disallowed={disallowed !== undefined && (disallowed & (1n << BigInt(i + j * size))) !== 0n}
 						opacity={opacity}
 						{...(image instanceof Array ? { image: image[i + j * size] } : null)}
@@ -79,6 +79,7 @@ const CaptchaGridItem = ({
 	return (
 		<motion.div
 			layout={animateLayout}
+			transition={{ duration: 0.3 }} 
 			className={styles.gridItemWrapper}
 			style={{
 				...(order ? { "--order": order } : null),

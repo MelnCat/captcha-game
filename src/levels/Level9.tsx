@@ -1,33 +1,27 @@
-import { useContext, useMemo, useState } from "react";
+import { motion } from "framer-motion";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { chunk } from "remeda";
 import { CaptchaContent } from "../components/CaptchaContent";
 import { CaptchaFooter } from "../components/CaptchaFooter";
 import { CaptchaGrid } from "../components/CaptchaGrid";
 import { CaptchaHeader } from "../components/CaptchaHeader";
 import { GameContext } from "../util/GameContext";
-import { useOrder, useVariant } from "../util/util";
-import { motion } from "framer-motion";
-import { countBits } from "../util/bits";
+import { SettingsInputAntenna } from "@mui/icons-material";
+import limbo from "../../public/audio/limbo.mp3";
+import useSound from "use-sound";
 
-const solutions: Record<number, bigint> = {
-	1: 469n,
-	2: 318n,
-	3: 196n
-};
-
-export const Level7 = () => {
+export const Level9 = () => {
 	const game = useContext(GameContext);
 	const [selections, setSelections] = useState(0n);
 	const [error, setError] = useState<string | null>(null);
-	const [order, resetOrder] = useOrder(9);
-	const [variant, setVariant] = useState(1);
 	const validate = () => {
-		console.log(variant, selections)
-		if (selections === solutions[variant]) {
+		if (selections === 2n ** BigInt(answer)) {
 			game.nextLevel();
 		} else {
 			setSelections(0n);
-			resetOrder();
-			setVariant(variant === 3 ? 2 : variant + 1);
+			setStage(0);
+			setAnswer(() => Math.floor(Math.random() * 16));
+			setSteps(0);
 			setError("Please try again.");
 		}
 	};
@@ -36,21 +30,25 @@ export const Level7 = () => {
 			<CaptchaHeader
 				content={{
 					title: "Select all squares with",
-					term: ["", "convergent improper integrals", "prime numbers", "even numbers"][variant]
+					term: "golden keys",
+					skip: "FOCUS",
 				}}
 			/>
 			<CaptchaContent>
 				<CaptchaGrid
+					opacity={stage === 1 ? 0.8 : 1}
+					animateLayout
 					hideDisallowed
+					disallowed={stage === 2 ? 0n : ~0n}
 					order={order}
-					image={`url("/img/l7/${variant}.jfif")`}
-					size={3}
+					image={images}
+					size={4}
 					selections={selections}
 					setSelections={setSelections}
 				/>
 			</CaptchaContent>
 			<hr />
-			<CaptchaFooter level={7} buttonLabel={"Verify"} error={error} onClick={validate} />
+			<CaptchaFooter level={8} buttonLabel={"Verify"} error={error} onClick={validate} />
 		</motion.article>
 	);
 };
