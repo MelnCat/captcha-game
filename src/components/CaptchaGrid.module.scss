@@ -12,6 +12,9 @@
 		}
 	}
 }
+.gridItemBackground {
+	z-index: 0;
+}
 .gridItemWrapper {
 	display: flex;
 	position: relative;
@@ -20,6 +23,12 @@
 	transition: filter 0.1s, opacity 0.2s;
 	&[data-disallowed] {
 		cursor: not-allowed;
+	}
+	&[data-selected] {
+		z-index: 2;
+		.gridItem {
+			border-width: var(--highlight-border-size);
+		}
 	}
 }
 .positionedGridItemWrapper {
@@ -35,9 +44,7 @@
 	transition: border 0.1s, background-image 0.2s;
 	border: #ffffff solid;
 	border-width: 0;
-	&[data-selected] {
-		border-width: var(--highlight-border-size);
-	}
+	cursor: default;
 }
 .checkmark {
 	position: absolute;

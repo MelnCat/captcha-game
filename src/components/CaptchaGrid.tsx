@@ -117,12 +117,14 @@ export const PositionedCaptchaGrid = ({
 	setSelections,
 	size,
 	background,
+	gridBackground,
 }: {
 	items: { id: string; image: string; row: number; column: number; disallowed?: boolean; content?: JSX.Element }[];
 	selections: string[];
 	setSelections: Dispatch<SetStateAction<string[]>>;
 	size: number;
 	background: string;
+	gridBackground?: boolean;
 }) => {
 	return (
 		<section
@@ -131,9 +133,26 @@ export const PositionedCaptchaGrid = ({
 				"--grid-size": size,
 				"--highlight-border-size": size < 7 ? "11cqmin" : "13cqmin",
 				"--checkmark-size": size < 7 ? "22.2cqmin" : "32.2cqmin",
-				backgroundImage: background,
+				...(gridBackground ? null : { backgroundImage: background }),
 			}}
 		>
+			{gridBackground
+				? [...Array(size)].map((_, i) =>
+						[...Array(size)].map((_, j) => (
+							<motion.div
+								key={`bg_${i},${j}`}
+								layout
+								transition={{ duration: 0.3 }}
+								className={`${styles.gridItemWrapper} ${styles.positionedGridItemWrapper} ${styles.gridItemBackground}`}
+								style={{
+									"--row": i + 1,
+									"--column": j + 1,
+									backgroundImage: background
+								}}
+							/>
+						))
+				)
+				: null}
 			{items.map(item => (
 				<PositionedCaptchaGridItem
 					key={item.id}
@@ -156,7 +175,7 @@ const PositionedCaptchaGridItem = ({
 	toggleSelected,
 	disallowed,
 	image,
-	content
+	content,
 }: {
 	row: number;
 	column: number;
@@ -164,7 +183,7 @@ const PositionedCaptchaGridItem = ({
 	toggleSelected(): void;
 	disallowed: boolean;
 	image: string;
-	content?: JSX.Element
+	content?: JSX.Element;
 }) => {
 	return (
 		<motion.div
@@ -173,16 +192,16 @@ const PositionedCaptchaGridItem = ({
 			className={`${styles.gridItemWrapper} ${styles.positionedGridItemWrapper}`}
 			{...(disallowed ? { "data-disallowed": true } : null)}
 			style={{
-				"--row": image ? 0 : row,
-				"--column": image ? 0 : column,
+				"--row": row,
+				"--column": column,
 			}}
+			{...(selected ? { "data-selected": true } : null)}
 		>
 			<div
 				className={styles.gridItem}
 				style={{
 					...(image ? { backgroundImage: image, backgroundSize: "contain" } : null),
 				}}
-				{...(selected ? { "data-selected": true } : null)}
 				onClick={() => {
 					if (!disallowed) toggleSelected();
 				}}
