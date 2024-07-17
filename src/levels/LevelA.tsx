@@ -9,16 +9,17 @@ import { motion } from "framer-motion";
 import * as uuid from "uuid";
 import styles from "./level.module.scss";
 import { useEventListener } from "usehooks-ts";
-import { add, groupBy } from "remeda";
+import { add, groupBy, sample } from "remeda";
 
+const size = 4;
 const getColor = (value: number) => {
-	if (value > 1024 && value <= 2048) return "linear-gradient(#f5ea8d, #c9b534)";
-	if (value > 2048) return "linear-gradient(red,orange,yellow,green,blue,purple)";
+	if (value > 1024 && value <= 2048) return "linear-gradient(#dacc50, #b6a63c)";
+	if (value > 2048) return "linear-gradient(#97b1f8, #6087f3)";
 	const color = (() => {
 		if (value < 2) return "#7f5f3b";
-		if (value === 2) return "#d3c090";
-		if (value <= 4) return "#bf9066";
-		if (value <= 8) return "#99792a";
+		if (value === 2) return "#c2b389";
+		if (value <= 4) return "#ac815c";
+		if (value <= 8) return "#665833";
 		if (value <= 16) return "#84b750";
 		if (value <= 32) return "#37bda7";
 		if (value <= 64) return "#3777bd";
@@ -30,40 +31,41 @@ const getColor = (value: number) => {
 	return `linear-gradient(${color}, ${color})`;
 };
 
+const grid = [...Array(size)].flatMap((_, i) => [...Array(size)].map((_, j) => [i + 1, j + 1] as const));
+
 export const LevelA = () => {
 	const game = useContext(GameContext);
-	const [items, setItems] = useState<{ id: string; row: number; column: number; value: number }[]>([
-		{
+	const [items, setItems] = useState<{ id: string; row: number; column: number; value: number }[]>(() =>
+		sample(grid, 2).map(x => ({
 			id: uuid.v4(),
-			row: 1,
-			column: 1,
+			row: x[0],
+			column: x[1],
 			value: 2,
-		},
-		{
-			id: uuid.v4(),
-			row: 2,
-			column: 1,
-			value: 2,
-		},
-		{
-			id: uuid.v4(),
-			row: 3,
-			column: 1,
-			value: 4,
-		},
-		{
-			id: uuid.v4(),
-			row: 4,
-			column: 1,
-			value: 4,
-		},
-	]);
+		}))
+	);
 	const [selections, setSelections] = useState<string[]>([]);
 	const [error, setError] = useState<string | null>(null);
 	const [interactable, setInteractable] = useState(true);
 	const gridItems = useMemo(() => {
-		return items.map(x => ({ id: x.id, row: x.row, column: x.column, image: getColor(x.value), content: <p className={styles.item2048}>{x.value}</p> }));
-	}, [items]);
+		return items.map(x => ({
+			id: x.id,
+			row: x.row,
+			column: x.column,
+			image: getColor(x.value),
+			content: (
+				<p
+					className={styles.item2048}
+					style={{
+						fontSize: selections.includes(x.id) ? (x.value < 10 ? "3em" : x.value >= 1000 ? "2.1em" : "2.8em") : 
+						x.value < 10 ? "3.2em" : x.value >= 1000 ? "2.5em" : "",
+						backdropFilter: x.value > 4096 ? `hue-rotate(${x.value}deg)` : "",
+					}}
+				>
+					{x.value}
+				</p>
+			),
+		}));
+	}, [items, selections]);
 	const saveAndMergeItems = (newItems: typeof items) => {
 		setItems(newItems);
 		setInteractable(false);
@@ -83,10 +85,21 @@ export const LevelA = () => {
 					value: overlap.reduce((l, c) => l + c.value, 0),
 				});
 			}
-			setItems(newItems.filter(x => !toRemove.includes(x)));
+			const extra: typeof items = [];
+			const free = grid.filter(x => !newItems.some(y => y.row === x[0] && y.column === x[1]));
+			if (free.length >= 1) {
+				const random = free[Math.floor(Math.random() * free.length)];
+				extra.push({
+					id: uuid.v4(),
+					row: random[0],
+					column: random[1],
+					value: Math.random() < 0.75 ? 2 : 4,
+				});
+			}
+			setItems(newItems.filter(x => !toRemove.includes(x)).concat(extra));
 			setSelections(x => x.filter(y => !toRemove.some(z => z.id === y)).concat(added));
 			setInteractable(true);
-		}, 250);
+		}, 190);
 	};
 	const onKeyPress = (event: KeyboardEvent) => {
 		if (event.key !== "ArrowDown" && event.key !== "ArrowUp" && event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
@@ -97,30 +110,48 @@ export const LevelA = () => {
 		const cmpOrder = event.key === "ArrowDown" || event.key === "ArrowRight" ? 1 : -1;
 		const cloned = items.slice().map(x => ({ ...x }));
 		const sorted = cloned.slice().sort((a, b) => cmpOrder * (a[cmpProp] - b[cmpProp]));
+		let moved = false;
 		for (const item of sorted.slice().reverse()) {
 			const collided = sorted.find(x => x[oppositeProp] === item[oppositeProp] && (cmpOrder === 1 ? x[cmpProp] > item[cmpProp] : x[cmpProp] < item[cmpProp]));
-			const newPos = collided ? (collided.value === item.value ? collided[cmpProp] : collided[cmpProp] - 1 * cmpOrder) : cmpOrder === 1 ? 4 : 1;
+			const others = sorted.find(x => x.row === collided?.row && x.column === collided?.column && x !== collided);
+			const newPos = collided ? (collided.value === item.value && !others ? collided[cmpProp] : collided[cmpProp] - 1 * cmpOrder) : cmpOrder === 1 ? size : 1;
 			if (newPos === item[cmpProp]) continue;
 			item[cmpProp] = newPos;
+			moved = true;
 		}
-		saveAndMergeItems(cloned);
+		if (moved) saveAndMergeItems(cloned);
 	};
 	const documentRef = useRef<Document>(document);
 	useEventListener("keydown", onKeyPress, documentRef);
-	const validate = () => {};
+	const validate = () => {
+		if (selections.length > 0 && selections.every(x => (items.find(y => y.id === x)?.value ?? 0) >= 256)) {
+			game.nextLevel();
+		} else {
+			setSelections([]);
+			setItems(
+				sample(grid, 2).map(x => ({
+					id: uuid.v4(),
+					row: x[0],
+					column: x[1],
+					value: 2,
+				}))
+			);
+			setError("Please try again.");
+		}
+	};
 	return (
 		<motion.article initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
 			<CaptchaHeader
 				content={{
 					title: "Select all squares with",
-					term: "2048",
+					term: "at least 256",
 					skip: "At least 1 square must be selected.",
 				}}
 			/>
 			<CaptchaContent>
 				<PositionedCaptchaGrid
 					items={gridItems}
-					size={4}
+					size={size}
 					selections={selections}
 					setSelections={setSelections}
 					background="linear-gradient(#cccccc,#cccccc)"

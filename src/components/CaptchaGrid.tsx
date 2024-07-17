@@ -86,6 +86,7 @@ const CaptchaGridItem = ({
 				...(opacity !== undefined ? { opacity } : null),
 			}}
 			{...(disallowed ? { "data-disallowed": true } : null)}
+			{...(selected ? { "data-selected": true } : null)}
 		>
 			<div
 				className={styles.gridItem}
@@ -94,7 +95,6 @@ const CaptchaGridItem = ({
 					"--column": image ? 0 : column,
 					...(image ? { backgroundImage: image, backgroundSize: "contain" } : null),
 				}}
-				{...(selected ? { "data-selected": true } : null)}
 				onClick={() => {
 					if (!disallowed) toggleSelected();
 				}}
@@ -147,24 +147,26 @@ export const PositionedCaptchaGrid = ({
 								style={{
 									"--row": i + 1,
 									"--column": j + 1,
-									backgroundImage: background
+									backgroundImage: background,
 								}}
 							/>
 						))
 				)
 				: null}
-			{items.map(item => (
-				<PositionedCaptchaGridItem
-					key={item.id}
-					row={item.row}
-					column={item.column}
-					selected={selections.includes(item.id)}
-					toggleSelected={() => setSelections(x => (x.includes(item.id) ? x.filter(y => y !== item.id) : x.concat(item.id)))}
-					disallowed={item.disallowed === true}
-					image={item.image}
-					content={item.content}
-				/>
-			))}
+			<AnimatePresence>
+				{items.map(item => (
+					<PositionedCaptchaGridItem
+						key={item.id}
+						row={item.row}
+						column={item.column}
+						selected={selections.includes(item.id)}
+						toggleSelected={() => setSelections(x => (x.includes(item.id) ? x.filter(y => y !== item.id) : x.concat(item.id)))}
+						disallowed={item.disallowed === true}
+						image={item.image}
+						content={item.content}
+					/>
+				))}
+			</AnimatePresence>
 		</section>
 	);
 };
@@ -188,7 +190,10 @@ const PositionedCaptchaGridItem = ({
 	return (
 		<motion.div
 			layout
-			transition={{ duration: 0.3 }}
+			animate={{ opacity: 1 }}
+			initial={{ opacity: 0 }}	
+			exit={{ opacity: 0 }}	
+			transition={{ duration: 0.2 }}
 			className={`${styles.gridItemWrapper} ${styles.positionedGridItemWrapper}`}
 			{...(disallowed ? { "data-disallowed": true } : null)}
 			style={{

@@ -2,6 +2,13 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	form {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1em;
+		min-width: 20em;
+	}
 }
 .label {
 	margin: 0;
