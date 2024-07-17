@@ -12,7 +12,7 @@ export const CaptchaGrid = ({
 	disallowed,
 	hideDisallowed,
 	animateLayout,
-	opacity
+	opacity,
 }: {
 	selections: bigint;
 	setSelections: Dispatch<SetStateAction<bigint>>;
@@ -64,7 +64,7 @@ const CaptchaGridItem = ({
 	disallowed,
 	image,
 	animateLayout,
-	opacity
+	opacity,
 }: {
 	row: number;
 	column: number;
@@ -79,11 +79,11 @@ const CaptchaGridItem = ({
 	return (
 		<motion.div
 			layout={animateLayout}
-			transition={{ duration: 0.3 }} 
+			transition={{ duration: 0.3 }}
 			className={styles.gridItemWrapper}
 			style={{
 				...(order ? { "--order": order } : null),
-				...(opacity !== undefined ? { opacity } : null)
+				...(opacity !== undefined ? { opacity } : null),
 			}}
 			{...(disallowed ? { "data-disallowed": true } : null)}
 		>
@@ -99,6 +99,95 @@ const CaptchaGridItem = ({
 					if (!disallowed) toggleSelected();
 				}}
 			>
+				<AnimatePresence>
+					{selected && (
+						<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.1 }} className={styles.checkmark}>
+							<Check />
+						</motion.div>
+					)}
+				</AnimatePresence>
+			</div>
+		</motion.div>
+	);
+};
+
+export const PositionedCaptchaGrid = ({
+	items,
+	selections,
+	setSelections,
+	size,
+	background,
+}: {
+	items: { id: string; image: string; row: number; column: number; disallowed?: boolean; content?: JSX.Element }[];
+	selections: string[];
+	setSelections: Dispatch<SetStateAction<string[]>>;
+	size: number;
+	background: string;
+}) => {
+	return (
+		<section
+			className={styles.grid}
+			style={{
+				"--grid-size": size,
+				"--highlight-border-size": size < 7 ? "11cqmin" : "13cqmin",
+				"--checkmark-size": size < 7 ? "22.2cqmin" : "32.2cqmin",
+				backgroundImage: background,
+			}}
+		>
+			{items.map(item => (
+				<PositionedCaptchaGridItem
+					key={item.id}
+					row={item.row}
+					column={item.column}
+					selected={selections.includes(item.id)}
+					toggleSelected={() => setSelections(x => (x.includes(item.id) ? x.filter(y => y !== item.id) : x.concat(item.id)))}
+					disallowed={item.disallowed === true}
+					image={item.image}
+					content={item.content}
+				/>
+			))}
+		</section>
+	);
+};
+const PositionedCaptchaGridItem = ({
+	row,
+	column,
+	selected,
+	toggleSelected,
+	disallowed,
+	image,
+	content
+}: {
+	row: number;
+	column: number;
+	selected: boolean;
+	toggleSelected(): void;
+	disallowed: boolean;
+	image: string;
+	content?: JSX.Element
+}) => {
+	return (
+		<motion.div
+			layout
+			transition={{ duration: 0.3 }}
+			className={`${styles.gridItemWrapper} ${styles.positionedGridItemWrapper}`}
+			{...(disallowed ? { "data-disallowed": true } : null)}
+			style={{
+				"--row": image ? 0 : row,
+				"--column": image ? 0 : column,
+			}}
+		>
+			<div
+				className={styles.gridItem}
+				style={{
+					...(image ? { backgroundImage: image, backgroundSize: "contain" } : null),
+				}}
+				{...(selected ? { "data-selected": true } : null)}
+				onClick={() => {
+					if (!disallowed) toggleSelected();
+				}}
+			>
+				{content}
 				<AnimatePresence>
 					{selected && (
 						<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.1 }} className={styles.checkmark}>

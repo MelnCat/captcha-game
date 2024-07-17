@@ -8,6 +8,7 @@ import { Level6 } from "./Level6";
 import { Level7 } from "./Level7";
 import { Level8 } from "./Level8";
 import { Level9 } from "./Level9";
+import { LevelA } from "./LevelA";
 
 export const levels: Record<number, { component: () => ReactNode } > = {
 	1: {
@@ -36,5 +37,8 @@ export const levels: Record<number, { component: () => ReactNode } > = {
 	},
 	9: {
 		component: Level9
+	},
+	10: {
+		component: LevelA
 	}
 }

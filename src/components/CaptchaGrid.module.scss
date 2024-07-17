@@ -5,6 +5,7 @@
 	width: 100%;
 	gap: 3px;
 	grid-auto-flow: column;
+	background-size: calc(100% / var(--grid-size)) calc(100% / var(--grid-size));
 	&:not([data-hide-disallowed]):hover {
 		.gridItemWrapper[data-disallowed] {
 			filter: brightness(0.7) saturate(0.5) contrast(0.8);
@@ -20,6 +21,10 @@
 	&[data-disallowed] {
 		cursor: not-allowed;
 	}
+}
+.positionedGridItemWrapper {
+	grid-row: var(--row);
+	grid-column: var(--column);
 }
 .gridItem {
 	width: 100%;
