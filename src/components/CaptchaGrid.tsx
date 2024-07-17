@@ -13,6 +13,7 @@ export const CaptchaGrid = ({
 	hideDisallowed,
 	animateLayout,
 	opacity,
+	height
 }: {
 	selections: bigint;
 	setSelections: Dispatch<SetStateAction<bigint>>;
@@ -23,12 +24,14 @@ export const CaptchaGrid = ({
 	hideDisallowed?: boolean;
 	animateLayout?: boolean;
 	opacity?: number;
+	height?: number;
 }) => {
 	return (
 		<section
 			className={styles.grid}
 			style={{
 				"--grid-size": size,
+				"--grid-height": height ?? size,
 				"--highlight-border-size": size < 7 ? "11cqmin" : "13cqmin",
 				"--checkmark-size": size < 7 ? "22.2cqmin" : "32.2cqmin",
 				...(typeof image === "string" ? { "--bg-image": image } : null),
@@ -118,26 +121,29 @@ export const PositionedCaptchaGrid = ({
 	size,
 	background,
 	gridBackground,
+	height
 }: {
-	items: { id: string; image: string; row: number; column: number; disallowed?: boolean; content?: JSX.Element }[];
+	items: { id: string; image: string; row: number; column: number; disallowed?: boolean; content?: JSX.Element;  }[];
 	selections: string[];
 	setSelections: Dispatch<SetStateAction<string[]>>;
 	size: number;
 	background: string;
 	gridBackground?: boolean;
+	height?: number
 }) => {
 	return (
 		<section
 			className={styles.grid}
 			style={{
 				"--grid-size": size,
+				"--grid-height": height ?? size,
 				"--highlight-border-size": size < 7 ? "11cqmin" : "13cqmin",
 				"--checkmark-size": size < 7 ? "22.2cqmin" : "32.2cqmin",
 				...(gridBackground ? null : { backgroundImage: background }),
 			}}
 		>
 			{gridBackground
-				? [...Array(size)].map((_, i) =>
+				? [...Array(height ?? size)].map((_, i) =>
 						[...Array(size)].map((_, j) => (
 							<motion.div
 								key={`bg_${i},${j}`}

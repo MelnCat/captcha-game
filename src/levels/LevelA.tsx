@@ -1,15 +1,14 @@
+import { motion } from "framer-motion";
 import { useContext, useMemo, useRef, useState } from "react";
+import { groupBy, sample } from "remeda";
+import { useEventListener } from "usehooks-ts";
+import * as uuid from "uuid";
 import { CaptchaContent } from "../components/CaptchaContent";
 import { CaptchaFooter } from "../components/CaptchaFooter";
-import { CaptchaGrid, PositionedCaptchaGrid } from "../components/CaptchaGrid";
+import { PositionedCaptchaGrid } from "../components/CaptchaGrid";
 import { CaptchaHeader } from "../components/CaptchaHeader";
 import { GameContext } from "../util/GameContext";
-import { useOrder, useVariant } from "../util/util";
-import { motion } from "framer-motion";
-import * as uuid from "uuid";
 import styles from "./level.module.scss";
-import { useEventListener } from "usehooks-ts";
-import { add, groupBy, sample } from "remeda";
 
 const size = 4;
 const getColor = (value: number) => {
@@ -46,6 +45,7 @@ export const LevelA = () => {
 	const [selections, setSelections] = useState<string[]>([]);
 	const [error, setError] = useState<string | null>(null);
 	const [interactable, setInteractable] = useState(true);
+	const [fails, setFails] = useState(0);
 	const gridItems = useMemo(() => {
 		return items.map(x => ({
 			id: x.id,
@@ -124,7 +124,7 @@ export const LevelA = () => {
 	const documentRef = useRef<Document>(document);
 	useEventListener("keydown", onKeyPress, documentRef);
 	const validate = () => {
-		if (selections.length > 0 && selections.every(x => (items.find(y => y.id === x)?.value ?? 0) >= 256)) {
+		if (selections.length > 0 && selections.every(x => (items.find(y => y.id === x)?.value ?? 0) >= ([2048, 1024, 512][fails] ?? 256))) {
 			game.nextLevel();
 		} else {
 			setSelections([]);
@@ -137,6 +137,7 @@ export const LevelA = () => {
 				}))
 			);
 			setError("Please try again.");
+			setFails(x => x + 1);
 		}
 	};
 	return (
@@ -144,7 +145,7 @@ export const LevelA = () => {
 			<CaptchaHeader
 				content={{
 					title: "Select all squares with",
-					term: "at least 256",
+					term: `at least ${[2048, 1024, 512][fails] ?? 256}`,
 					skip: "At least 1 square must be selected.",
 				}}
 			/>

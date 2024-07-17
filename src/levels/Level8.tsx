@@ -1,14 +1,12 @@
 import { motion } from "framer-motion";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { chunk } from "remeda";
+import useSound from "use-sound";
 import { CaptchaContent } from "../components/CaptchaContent";
 import { CaptchaFooter } from "../components/CaptchaFooter";
 import { CaptchaGrid } from "../components/CaptchaGrid";
 import { CaptchaHeader } from "../components/CaptchaHeader";
 import { GameContext } from "../util/GameContext";
-import { SettingsInputAntenna } from "@mui/icons-material";
-import limbo from "../../public/audio/limbo.mp3";
-import useSound from "use-sound";
 
 export const Level8 = () => {
 	const game = useContext(GameContext);

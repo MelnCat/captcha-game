@@ -10,3 +10,14 @@
     font-weight: bold;
 	transition: font-size 0.1s;
 }
+.timeText {
+    font-size: 3.6em;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+	transition: scale 0.1s;	
+}

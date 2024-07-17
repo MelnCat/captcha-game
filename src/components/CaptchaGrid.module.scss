@@ -1,11 +1,11 @@
 .grid {
 	display: grid;
-	grid-template: repeat(var(--grid-size), 1fr) / repeat(var(--grid-size), 1fr);
+	grid-template: repeat(var(--grid-height), 1fr) / repeat(var(--grid-size), 1fr);
 	height: 100%;
 	width: 100%;
 	gap: 3px;
 	grid-auto-flow: column;
-	background-size: calc(100% / var(--grid-size)) calc(100% / var(--grid-size));
+	background-size: calc(100% / var(--grid-height)) calc(100% / var(--grid-size));
 	&:not([data-hide-disallowed]):hover {
 		.gridItemWrapper[data-disallowed] {
 			filter: brightness(0.7) saturate(0.5) contrast(0.8);
@@ -34,13 +34,14 @@
 .positionedGridItemWrapper {
 	grid-row: var(--row);
 	grid-column: var(--column);
+	aspect-ratio: 1/ 1;
 }
 .gridItem {
 	width: 100%;
 	height: 100%;
 	background-image: var(--bg-image);
-	background-size: calc(var(--grid-size) * 100%) calc(var(--grid-size) * 100%);
-	background-position: calc(100% / (var(--grid-size) - 1) * var(--row)) calc(100% / (var(--grid-size) - 1) * var(--column));
+	background-size: calc(var(--grid-height) * 100%) calc(var(--grid-size) * 100%);
+	background-position: calc(100% / (var(--grid-height) - 1) * var(--row)) calc(100% / (var(--grid-size) - 1) * var(--column));
 	transition: border 0.1s, background-image 0.2s;
 	border: #ffffff solid;
 	border-width: 0;
