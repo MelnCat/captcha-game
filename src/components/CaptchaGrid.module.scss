@@ -18,6 +18,7 @@
 .gridItemWrapper {
 	display: flex;
 	position: relative;
+    aspect-ratio: 1 / 1;
 	order: var(--order);
 	container-type: inline-size;
 	transition: filter 0.1s, opacity 0.2s;
