@@ -10,21 +10,15 @@ import { CaptchaHeader } from "../components/CaptchaHeader";
 import { GameContext } from "../util/GameContext";
 import styles from "./level.module.scss";
 
-const getTime = () => {
-	const date = new Date();
-	return [date.getHours(), date.getMinutes(), date.getSeconds()].map(x => x.toString().padStart(2, "0")).join(":");
+const size = 5;
+const createGrid = () => {
+	[...Array(size)].map((_, i) => (_, j) => "CAT"[Math.floor(Math.random() * 3)])
 };
-export const LevelB = () => {
+
+export const LevelC = () => {
 	const game = useContext(GameContext);
 	const [selections, setSelections] = useState<string[]>([]);
 	const [error, setError] = useState<string | null>(null);
-	const [time, setTime] = useState(getTime);
-	useEffect(() => {
-		const interval = setInterval(() => {
-			setTime(getTime());
-		}, 100);
-		return () => clearInterval(interval);
-	}, []);
 	const items = useMemo(() => {
 		return time.split("").map((x, i) => ({
 			id: i.toString(),
@@ -52,15 +46,22 @@ export const LevelB = () => {
 			<CaptchaHeader
 				content={{
 					title: "Select all squares with",
-					term: "5",
-					skip: "At least 1 square must be selected.",
+					term: "cat",
 				}}
 			/>
 			<CaptchaContent>
-				<PositionedCaptchaGrid items={items} size={8} height={7} selections={selections} setSelections={setSelections} background="linear-gradient(#cccccc,#cccccc)" gridBackground />
+				<PositionedCaptchaGrid
+					items={items}
+					size={8}
+					height={7}
+					selections={selections}
+					setSelections={setSelections}
+					background="linear-gradient(#cccccc,#cccccc)"
+					gridBackground
+				/>
 			</CaptchaContent>
 			<hr />
-			<CaptchaFooter level={11} buttonLabel={"Verify"} error={error} onClick={validate} />
+			<CaptchaFooter level={12} buttonLabel={"Verify"} error={error} onClick={validate} />
 		</motion.article>
 	);
 };
