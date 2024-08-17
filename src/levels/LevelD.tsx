@@ -78,7 +78,7 @@ export const LevelD = () => {
 				/>
 			</CaptchaContent>
 			<hr />
-			<CaptchaFooter level={12} buttonLabel={"Verify"} error={error} onClick={validate} />
+			<CaptchaFooter level={13} buttonLabel={"Verify"} error={error} onClick={validate} />
 		</motion.article>
 	);
 };
