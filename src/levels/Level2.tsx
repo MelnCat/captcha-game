@@ -22,7 +22,6 @@ export const Level2 = () => {
 	const [variant, resetVariant] = useVariant(6);
 	const [error, setError] = useState<string | null>(null);
 	const validate = () => {
-		console.log(variant, selections);
 		if ((selections & ~solutions[variant].secondary) === solutions[variant].primary) {
 			game.nextLevel();
 		} else {

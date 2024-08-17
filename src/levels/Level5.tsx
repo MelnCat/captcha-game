@@ -40,7 +40,6 @@ export const Level5 = () => {
 	const [error, setError] = useState<string | null>(null);
 	const count = useMemo(() => countBits(selections), [selections]);
 	const validate = () => {
-		console.log(variant, selections);
 		if (selections === variants[variant].solution) {
 			game.nextLevel();
 		} else {

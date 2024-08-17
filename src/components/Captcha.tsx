@@ -1,21 +1,18 @@
 import { AnimatePresence, motion, useAnimate } from "framer-motion";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./Captcha.module.scss";
 import { CaptchaBox } from "./CaptchaBox";
-
-const variants = {
-	open: { opacity: 1, x: 0 },
-	closed: { opacity: 0, x: "-100%" },
-};
+import { Check } from "@mui/icons-material";
+import { GameContext } from "../util/GameContext";
 
 export const Captcha = () => {
 	const [open, setOpen] = useState(false);
 	const [scope, animate] = useAnimate<HTMLButtonElement>();
-
+	const game = useContext(GameContext);
 	return (
 		<article className={styles.captcha}>
 			<div className={styles.checkboxContainer}>
-				<button
+				{game.complete ? <Check /> : <button
 					ref={scope}
 					className={styles.checkbox}
 					onClick={() => {
@@ -32,8 +29,8 @@ export const Captcha = () => {
 							}, 200);
 						}, 500);
 					}}
-				/>
-				<AnimatePresence>{open && <CaptchaBox />}</AnimatePresence>
+				/>}
+				<AnimatePresence>{open && !game.complete && <CaptchaBox />}</AnimatePresence>
 			</div>
 			<p className={styles.label}>I'm not a robot</p>
 		</article>

@@ -90,7 +90,6 @@ export const LevelC = () => {
 	}, [grid, selections]);
 	const validate = () => {
 		const cats = findCats(grid);
-		console.log(cats, selections);
 		if (
 			selections.length > 0 &&
 			[...new Set(cats.flat().map(x => x.join(",")))].length === selections.length &&

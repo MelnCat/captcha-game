@@ -25,6 +25,13 @@
 
 .checkboxContainer {
 	position: relative;
+	> svg {
+		color: green;
+		height: 38px;
+		width: 38px;
+		margin: 0 8px;
+		margin-left: 12px;
+	}
 }
 
 .label {

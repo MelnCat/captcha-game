@@ -11,6 +11,7 @@ import { Level9 } from "./Level9";
 import { LevelA } from "./LevelA";
 import { LevelB } from "./LevelB";
 import { LevelC } from "./LevelC";
+import { LevelD } from "./LevelD";
 
 export const levels: Record<number, { component: () => ReactNode, width?: string; } > = {
 	1: {
@@ -49,6 +50,10 @@ export const levels: Record<number, { component: () => ReactNode, width?: string
 	},
 	12: {
 		component: LevelC,
+		width: "600px"
+	},
+	13: {
+		component: LevelD,
 		width: "600px"
 	}
 }

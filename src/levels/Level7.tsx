@@ -21,7 +21,6 @@ export const Level7 = () => {
 	const [order, resetOrder] = useOrder(9);
 	const [variant, setVariant] = useState(1);
 	const validate = () => {
-		console.log(variant, selections)
 		if (selections === solutions[variant]) {
 			game.nextLevel();
 		} else {
