@@ -51,7 +51,7 @@ export const Level8 = () => {
 						return columns.flatMap(([a, b, c, d]) => [b, a, d, c]);
 					});
 				} else if (type === 2) {
-					setOrder(o => {
+					setOrder(x => {
 						const [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p] = x;
 						return [i, j, a, b,
 							m, n, e, f,
