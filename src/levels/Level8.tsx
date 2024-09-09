@@ -52,8 +52,11 @@ export const Level8 = () => {
 					});
 				} else if (type === 2) {
 					setOrder(o => {
-						const [a, b, c, d] = chunk(o, 4);
-						return [b, a, d, c].flat();
+						const [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p] = x;
+						return [i, j, a, b,
+							m, n, e, f,
+							k, l, c, d,
+							o, p, g, h];
 					});
 				} else if (type === 3) {
 					setOrder(x => {
@@ -68,12 +71,12 @@ export const Level8 = () => {
 				} else if (type === 5) {
 					setOrder(o => {
 						const columns = chunk(o, 4);
-						return columns.flatMap(([a, b, c, d]) => [c, d, a, b]);
+						return columns.flatMap(([a, b, c, d]) => [a, c, b, d]);
 					});
 				} else if (type === 6) {
 					setOrder(o => {
 						const [a, b, c, d] = chunk(o, 4);
-						return [c, d, a, b].flat();
+						return [b, a, d, c].flat();
 					});
 				} else if (type === 7) {
 					setOrder(x => {
