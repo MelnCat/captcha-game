@@ -45,8 +45,8 @@ export const LevelD = () => {
 		if (
 			grid.flat().filter(x => x === target).length === items.filter(x => x.type === target && selections.includes(x.id)).length
 		) {
-			game.nextLevel();
-			//game.setComplete(true);
+			//game.nextLevel();
+			game.setComplete(true);
 		} else {
 			resetTimer();
 			setSelections([]);
